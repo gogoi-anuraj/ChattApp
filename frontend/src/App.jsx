@@ -3,7 +3,6 @@ import { Routes, Route, Navigate } from "react-router-dom";
 import HomePage from "./pages/HomePage";
 import SignupPage from "./pages/SignupPage";
 import LoginPage from "./pages/LoginPage";
-import SettingsPage from "./pages/SettingsPage";
 import ProfilePage from "./pages/ProfilePage";
 import { Toaster } from "react-hot-toast";
 
@@ -43,7 +42,6 @@ console.log({onlineUsers})
           path="/login"
           element={!authUser ? <LoginPage /> : <Navigate to="/" />}
         />
-        <Route path="/settings" element={<SettingsPage />} />
         <Route
           path="/profile"
           element={authUser ? <ProfilePage /> : <Navigate to="/login" />}

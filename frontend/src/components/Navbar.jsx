@@ -1,10 +1,30 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useAuthStore } from "../store/useAuthStore";
-import { LogOut, MessagesSquare, Settings, User } from "lucide-react";
+import { LogOut, MessagesSquare, Moon, Sun, User } from "lucide-react";
 import { Link } from "react-router-dom";
 
 const Navbar = () => {
   const { logout, authUser } = useAuthStore();
+
+  const [dark, setDark] = useState(() =>{
+    const savedTheme = localStorage.getItem("theme");
+    return savedTheme ==="dark";
+  });
+
+  useEffect(() => {
+    if (dark) {
+      document.documentElement.setAttribute("data-theme", "dark");
+      localStorage.setItem("theme", "dark");
+    } else {
+      document.documentElement.setAttribute("data-theme", "light");
+      localStorage.setItem("theme", "light");
+    }
+  }, [dark]);
+
+  const handleTheme = () => {
+    setDark((prev) => !prev);
+  }
+
   return (
     <div>
       <header className="bg-base-100 border-b border-base-300 fixed w-full top-0 z-40 backdrop-blur-lg">
@@ -23,13 +43,12 @@ const Navbar = () => {
             </div>
 
             <div className="flex items-center gap-2">
-              <Link
-                to={"/settings"}
-                className="btn btn-sm gap-2 transition-colors"
-              >
-                <Settings className="w-4 h-4" />
-                <span className="hidden sm:inline">Settings</span>
-              </Link>
+              <button
+              onClick={handleTheme}
+              className="btn btn-sm btn-ghost"
+              title="Toggle Theme">
+                {dark ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
+              </button>
 
               {authUser && (
                 <>
